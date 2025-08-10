@@ -1,7 +1,10 @@
 "use client";
 
 import { Input } from "@/components/input/input";
+import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 const schema = z.object({
@@ -28,11 +31,7 @@ const schema = z.object({
 
 type formData = z.infer<typeof schema>;
 
-function handlerRegisterCustomer(data: formData) {
-  console.log(data);
-}
-
-export function NewCustomerForm() {
+export function NewCustomerForm({ userId }: { userId: string }) {
   const {
     register,
     handleSubmit,
@@ -40,6 +39,22 @@ export function NewCustomerForm() {
   } = useForm<formData>({
     resolver: zodResolver(schema),
   });
+
+  const router = useRouter()
+
+  async function handlerRegisterCustomer(data: formData) {
+    await api.post('/api/customer', {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      userId: userId,
+      address: data.address
+    })
+
+    router.refresh()
+    router.replace("/dashboard/customer")
+
+  }
   return (
     <form
       className="flex flex-col mt-6"
@@ -56,7 +71,7 @@ export function NewCustomerForm() {
 
       <section className="flex gap-2 flex-col sm:flex-row my-2">
         <div className="flex flex-col flex-1">
-          <label className="mb-1 text-lg font-medium">Nome Completo:</label>
+          <label className="mb-1 text-lg font-medium">Telefone:</label>
           <Input
             type="text"
             name="phone"
@@ -67,7 +82,7 @@ export function NewCustomerForm() {
         </div>
 
         <div className="flex flex-col flex-1">
-          <label className="mb-1 text-lg font-medium">Nome Completo:</label>
+          <label className="mb-1 text-lg font-medium">Email:</label>
           <Input
             type="email"
             name="email"
@@ -78,7 +93,7 @@ export function NewCustomerForm() {
         </div>
       </section>
 
-      <label className="mb-1 text-lg font-medium">Nome Completo:</label>
+      <label className="mb-1 text-lg font-medium">Endereço:</label>
       <Input
         type="text"
         name="address"
