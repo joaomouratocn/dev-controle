@@ -1,22 +1,22 @@
-'use client'
-import { api } from '@/lib/api'
-import { CustomerInterface } from "@/util/interfaces/Customer.type";
-import { useRouter } from 'next/navigation';
+"use client";
+import { api } from "@/lib/api";
+import { CustomerInterface } from "@/util/Customer.type";
+import { useRouter } from "next/navigation";
 
 export function CardCustomer({ customer }: { customer: CustomerInterface }) {
-  const router = useRouter()
+  const router = useRouter();
 
   async function handlerDeleteCustomer() {
     try {
       const response = await api.delete("/api/customer", {
         params: {
-          id: customer.id
-        }
-      })
-      router.refresh()
-      console.log(response.data)
+          id: customer.id,
+        },
+      });
+      router.refresh();
+      console.log(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -36,7 +36,8 @@ export function CardCustomer({ customer }: { customer: CustomerInterface }) {
       </p>
       <button
         onClick={handlerDeleteCustomer}
-        className="bg-red-500 px-4 mt-2 rounded text-white self-start cursor-pointer">
+        className="bg-red-500 px-4 mt-2 rounded text-white self-start cursor-pointer"
+      >
         Deletar
       </button>
     </article>

@@ -3,7 +3,6 @@
 import { Input } from "@/components/input/input";
 import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,20 +39,19 @@ export function NewCustomerForm({ userId }: { userId: string }) {
     resolver: zodResolver(schema),
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   async function handlerRegisterCustomer(data: formData) {
-    await api.post('/api/customer', {
+    await api.post("/api/customer", {
       name: data.name,
       phone: data.phone,
       email: data.email,
       userId: userId,
-      address: data.address
-    })
+      address: data.address,
+    });
 
-    router.refresh()
-    router.replace("/dashboard/customer")
-
+    router.refresh();
+    router.replace("/dashboard/customer");
   }
   return (
     <form

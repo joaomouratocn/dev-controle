@@ -16,7 +16,7 @@ export default async function NewCustomer() {
       <main className="flex flex-col mt-9 mb-2">
         <div className="flex items-center gap-3">
           <Link
-            href="dashborad/customer"
+            href="/dashboard/customer"
             className="bg-gray-900 px-4 py-1 text-white rounded"
           >
             Voltar
