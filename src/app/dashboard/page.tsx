@@ -23,8 +23,6 @@ export default async function Dashboard() {
     },
   });
 
-  console.log(tickets);
-
   return (
     <main>
       <Container>
@@ -46,16 +44,10 @@ export default async function Dashboard() {
                   CADASTRO
                 </th>
                 <th className="font-medium text-left">STATUS</th>
-                <th className="font-medium text-center">#</th>
+                <th className="font-medium text-center">AÇÕES</th>
               </tr>
             </thead>
             <tbody>
-              {tickets.length === 0 && (
-                <h1 className="mt-10 text-gray-400 font-bold w-full text-center">
-                  Sem chamados cadastrados
-                </h1>
-              )}
-
               {tickets.length !== 0 &&
                 tickets.map((ticket) => (
                   <TicketItem
@@ -66,6 +58,11 @@ export default async function Dashboard() {
                 ))}
             </tbody>
           </table>
+          {tickets.length === 0 && (
+            <h1 className="mt-10 text-gray-400 font-bold w-full text-center">
+              Sem chamados abertos
+            </h1>
+          )}
         </main>
       </Container>
     </main>

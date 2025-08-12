@@ -1,6 +1,9 @@
+"use client"
+
 import { FiFile, FiCheckSquare } from "react-icons/fi";
 import { CustomerInterface } from "@/util/Customer.type";
 import { TicketInterface } from "@/util/Ticket.type";
+import { api } from "@/lib/api"
 
 interface ReceivedProps {
   ticket: TicketInterface;
@@ -8,6 +11,17 @@ interface ReceivedProps {
 }
 
 export function TicketItem({ ticket, customer }: ReceivedProps) {
+
+  async function handlerChangeStatus() {
+    try {
+      const response = await api.patch("/api/ticket", {
+        id: ticket.id
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <tr className="border-b-2 border-b-slate-200 h-16 last:border-b-0 bg-slate-100 hover:bg-gray-200 duration-300">
@@ -21,7 +35,7 @@ export function TicketItem({ ticket, customer }: ReceivedProps) {
           </span>
         </td>
         <td className="text-center">
-          <button className="mr-2 cursor-pointer">
+          <button className="mr-4 cursor-pointer" onClick={handlerChangeStatus}>
             <FiCheckSquare size={24} color="#131313" />
           </button>
 
