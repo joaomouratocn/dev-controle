@@ -57,11 +57,15 @@ export async function POST(request: Request) {
         name: name,
         description: description,
         status: "ABERTO",
-        customer: customerId,
+        customerId: customerId,
       },
     });
 
-    return NextResponse.json({ message: "Sucesso" });
+    return NextResponse.json(
+      { mensagem: "Failed create new ticket" },
+      { status: 200 }
+    );
+
   } catch (error) {
     return NextResponse.json(
       { error: "Failed create new ticket" },
